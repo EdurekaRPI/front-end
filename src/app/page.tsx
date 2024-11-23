@@ -1,5 +1,7 @@
 'use client';
+
 import { useState, useEffect, ChangeEvent } from 'react';
+import Link from 'next/link';
 import styles from './page.module.css';
 
 interface FormData {
@@ -29,7 +31,7 @@ export default function EventPage() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [goingList, setGoingList] = useState<string[]>([]); // Assuming list of user names or IDs
-  const [isEditing, setIsEditing] = useState<boolean>(false); // New state for edit mode
+  const [isEditing, setIsEditing] = useState<boolean>(false); // State for edit mode
   const [originalData, setOriginalData] = useState<FormData | null>(null); // To store original data for cancel
 
   useEffect(() => {
@@ -47,11 +49,13 @@ export default function EventPage() {
     }
   }, [isDarkMode]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+      e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === 'capacity' ? Number(value) : value,
+      [name]: value,
     }));
   };
 
@@ -97,10 +101,18 @@ export default function EventPage() {
         {/* Header */}
         <header className={styles.header}>
           <h1>Event Manager</h1>
-          {/* Dark mode toggle */}
-          <button className={styles.toggleButton} onClick={toggleDarkMode}>
-            {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
-          </button>
+          <div className={styles.headerButtons}>
+            {/* Dark mode toggle */}
+            <button className={styles.toggleButton} onClick={toggleDarkMode}>
+              {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+            </button>
+            {/* Admin Log In button using Link */}
+            <Link href="/admin-login">
+              <button className={styles.adminButton}>
+                Admin Log In
+              </button>
+            </Link>
+          </div>
         </header>
 
         {/* Main Content */}

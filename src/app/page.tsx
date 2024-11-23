@@ -29,6 +29,8 @@ export default function EventPage() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [goingList, setGoingList] = useState<string[]>([]); // Assuming list of user names or IDs
+  const [isEditing, setIsEditing] = useState<boolean>(false); // New state for edit mode
+  const [originalData, setOriginalData] = useState<FormData | null>(null); // To store original data for cancel
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -66,9 +68,24 @@ export default function EventPage() {
   };
 
   const handleEdit = () => {
-    // Edit logic
-    console.log('Edit:', formData);
-    // Add API call to edit the event
+    // Enter edit mode
+    setOriginalData(formData); // Save current data in case of cancel
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    // Save logic
+    console.log('Saved:', formData);
+    // Add API call to save the edited event
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    // Cancel editing and revert to original data
+    if (originalData) {
+      setFormData(originalData);
+    }
+    setIsEditing(false);
   };
 
   const toggleDarkMode = () => {
@@ -95,58 +112,74 @@ export default function EventPage() {
                 {/* Name */}
                 <div className={styles.formGroup}>
                   <label htmlFor="name">Event Name</label>
-                  <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder="Enter event name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                  />
+                  {isEditing ? (
+                      <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          placeholder="Enter event name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                      />
+                  ) : (
+                      <p>{formData.name || 'N/A'}</p>
+                  )}
                 </div>
 
                 {/* Type */}
                 <div className={styles.formGroup}>
                   <label htmlFor="type">Type</label>
-                  <input
-                      type="text"
-                      id="type"
-                      name="type"
-                      placeholder="Enter event type"
-                      value={formData.type}
-                      onChange={handleChange}
-                      required
-                  />
+                  {isEditing ? (
+                      <input
+                          type="text"
+                          id="type"
+                          name="type"
+                          placeholder="Enter event type"
+                          value={formData.type}
+                          onChange={handleChange}
+                          required
+                      />
+                  ) : (
+                      <p>{formData.type || 'N/A'}</p>
+                  )}
                 </div>
 
                 {/* Hosting Type */}
                 <div className={styles.formGroup}>
                   <label htmlFor="hostingType">Hosting Type</label>
-                  <select
-                      id="hostingType"
-                      name="hostingType"
-                      value={formData.hostingType}
-                      onChange={handleChange}
-                      required
-                  >
-                    <option value="User">User</option>
-                    <option value="Club">Club</option>
-                  </select>
+                  {isEditing ? (
+                      <select
+                          id="hostingType"
+                          name="hostingType"
+                          value={formData.hostingType}
+                          onChange={handleChange}
+                          required
+                      >
+                        <option value="User">User</option>
+                        <option value="Club">Club</option>
+                      </select>
+                  ) : (
+                      <p>{formData.hostingType}</p>
+                  )}
                 </div>
 
                 {/* Hosting ID */}
                 <div className={styles.formGroup}>
                   <label htmlFor="hostingId">Hosting ID</label>
-                  <input
-                      type="text"
-                      id="hostingId"
-                      name="hostingId"
-                      placeholder={`Enter ${formData.hostingType} ID`}
-                      value={formData.hostingId}
-                      onChange={handleChange}
-                      required
-                  />
+                  {isEditing ? (
+                      <input
+                          type="text"
+                          id="hostingId"
+                          name="hostingId"
+                          placeholder={`Enter ${formData.hostingType} ID`}
+                          value={formData.hostingId}
+                          onChange={handleChange}
+                          required
+                      />
+                  ) : (
+                      <p>{formData.hostingId || 'N/A'}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -157,28 +190,36 @@ export default function EventPage() {
                 {/* Location */}
                 <div className={styles.formGroup}>
                   <label htmlFor="location">Location</label>
-                  <input
-                      type="text"
-                      id="location"
-                      name="location"
-                      placeholder="Enter location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      required
-                  />
+                  {isEditing ? (
+                      <input
+                          type="text"
+                          id="location"
+                          name="location"
+                          placeholder="Enter location"
+                          value={formData.location}
+                          onChange={handleChange}
+                          required
+                      />
+                  ) : (
+                      <p>{formData.location || 'N/A'}</p>
+                  )}
                 </div>
 
                 {/* Date */}
                 <div className={styles.formGroup}>
                   <label htmlFor="date">Date & Time</label>
-                  <input
-                      type="datetime-local"
-                      id="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      required
-                  />
+                  {isEditing ? (
+                      <input
+                          type="datetime-local"
+                          id="date"
+                          name="date"
+                          value={formData.date}
+                          onChange={handleChange}
+                          required
+                      />
+                  ) : (
+                      <p>{formData.date ? new Date(formData.date).toLocaleString() : 'N/A'}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -187,15 +228,19 @@ export default function EventPage() {
               <h2>Description</h2>
               <div className={styles.formGroup}>
                 <label htmlFor="description">Event Description</label>
-                <textarea
-                    id="description"
-                    name="description"
-                    placeholder="Enter event description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    required
-                    rows={4}
-                ></textarea>
+                {isEditing ? (
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Enter event description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        required
+                        rows={4}
+                    ></textarea>
+                ) : (
+                    <p>{formData.description || 'N/A'}</p>
+                )}
               </div>
             </div>
 
@@ -205,27 +250,39 @@ export default function EventPage() {
                 {/* Image */}
                 <div className={styles.formGroup}>
                   <label htmlFor="image">Event Image</label>
-                  <input
-                      type="url"
-                      id="image"
-                      name="image"
-                      placeholder="Enter image URL (optional)"
-                      value={formData.image}
-                      onChange={handleChange}
-                  />
+                  {isEditing ? (
+                      <input
+                          type="url"
+                          id="image"
+                          name="image"
+                          placeholder="Enter image URL (optional)"
+                          value={formData.image || ''}
+                          onChange={handleChange}
+                      />
+                  ) : formData.image ? (
+                      <a href={formData.image} target="_blank" rel="noopener noreferrer">
+                        View Image
+                      </a>
+                  ) : (
+                      <p>N/A</p>
+                  )}
                 </div>
 
                 {/* Classroom ID */}
                 <div className={styles.formGroup}>
                   <label htmlFor="classroomId">Classroom ID</label>
-                  <input
-                      type="text"
-                      id="classroomId"
-                      name="classroomId"
-                      placeholder="Enter classroom ID (optional)"
-                      value={formData.classroomId}
-                      onChange={handleChange}
-                  />
+                  {isEditing ? (
+                      <input
+                          type="text"
+                          id="classroomId"
+                          name="classroomId"
+                          placeholder="Enter classroom ID (optional)"
+                          value={formData.classroomId || ''}
+                          onChange={handleChange}
+                      />
+                  ) : (
+                      <p>{formData.classroomId || 'N/A'}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -249,27 +306,48 @@ export default function EventPage() {
 
             {/* Action Buttons */}
             <div className={styles.buttonGroup}>
-              <button
-                  type="button"
-                  className={`${styles.button} ${styles.approve}`}
-                  onClick={handleApprove}
-              >
-                Approve
-              </button>
-              <button
-                  type="button"
-                  className={`${styles.button} ${styles.reject}`}
-                  onClick={handleReject}
-              >
-                Reject
-              </button>
-              <button
-                  type="button"
-                  className={`${styles.button} ${styles.edit}`}
-                  onClick={handleEdit}
-              >
-                Edit
-              </button>
+              {isEditing ? (
+                  <>
+                    <button
+                        type="button"
+                        className={`${styles.button} ${styles.save}`}
+                        onClick={handleSave}
+                    >
+                      Save
+                    </button>
+                    <button
+                        type="button"
+                        className={`${styles.button} ${styles.cancel}`}
+                        onClick={handleCancel}
+                    >
+                      Cancel
+                    </button>
+                  </>
+              ) : (
+                  <>
+                    <button
+                        type="button"
+                        className={`${styles.button} ${styles.modify}`}
+                        onClick={handleEdit}
+                    >
+                      Modify
+                    </button>
+                    <button
+                        type="button"
+                        className={`${styles.button} ${styles.approve}`}
+                        onClick={handleApprove}
+                    >
+                      Approve
+                    </button>
+                    <button
+                        type="button"
+                        className={`${styles.button} ${styles.reject}`}
+                        onClick={handleReject}
+                    >
+                      Reject
+                    </button>
+                  </>
+              )}
             </div>
           </form>
         </main>

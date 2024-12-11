@@ -2,7 +2,7 @@
 
 import styles from './admin-login.module.css';
 
-export default function AdminLogin() {
+export default function Page() {
     return (
         <div className={styles.container}>
             <h1>Admin Login</h1>

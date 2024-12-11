@@ -102,6 +102,9 @@ export default function EventPage() {
             <Link href="/admin-login">
               <button className={styles.adminButton}>Admin Log In</button>
             </Link>
+            <Link href="/report-problem">
+              <button className={styles.adminButton}>Report Problem</button>
+            </Link>
           </div>
         </header>
         <main className={styles.main}>

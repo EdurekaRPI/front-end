@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './admin-login.module.css';
 
 export default function Page() {
@@ -61,6 +62,12 @@ export default function Page() {
                         Log In
                     </button>
                 </form>
+
+                <Link href="/">
+                    <button className={styles.returnButton}>
+                        Return to Main Page
+                    </button>
+                </Link>
             </div>
         </div>
     );

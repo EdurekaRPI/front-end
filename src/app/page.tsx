@@ -17,6 +17,8 @@ interface FormData {
 }
 
 export default function EventPage() {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     type: '',
@@ -29,14 +31,15 @@ export default function EventPage() {
     classroomId: '',
   });
 
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [goingList, setGoingList] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [originalData, setOriginalData] = useState<FormData | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    if (savedTheme === 'light') {
+      setIsDarkMode(false);
+    } else {
       setIsDarkMode(true);
     }
   }, []);

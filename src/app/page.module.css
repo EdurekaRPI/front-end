@@ -14,7 +14,6 @@
     background-color: var(--header-background);
     color: var(--header-text);
     border-bottom: 1px solid #eaeaea;
-    /* Transition for header colors */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 

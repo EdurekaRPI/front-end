@@ -61,12 +61,10 @@ export default function EventPage() {
 
   const handleApprove = () => {
     console.log('Approved:', formData);
-    // Add API call
   };
 
   const handleReject = () => {
     console.log('Rejected:', formData);
-    // Add API call
   };
 
   const handleEdit = () => {
@@ -76,7 +74,6 @@ export default function EventPage() {
 
   const handleSave = () => {
     console.log('Saved:', formData);
-    // Add API call
     setIsEditing(false);
   };
 
@@ -94,7 +91,7 @@ export default function EventPage() {
   return (
       <div className={`${styles.container} ${isDarkMode ? styles.dark : styles.light}`}>
         <header className={styles.header}>
-          <h1>Event Manager</h1>
+          <h1>Edureka - Event Manager</h1>
           <div className={styles.headerButtons}>
             <button className={styles.toggleButton} onClick={toggleDarkMode}>
               {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}

@@ -3,11 +3,9 @@
     padding: 0 2rem;
     display: flex;
     flex-direction: column;
-    background-color: var(--background);
-    color: var(--text);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Header Styles */
 .header {
     display: flex;
     justify-content: space-between;
@@ -16,6 +14,8 @@
     background-color: var(--header-background);
     color: var(--header-text);
     border-bottom: 1px solid #eaeaea;
+    /* Transition for header colors */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .headerButtons {
@@ -30,7 +30,7 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .toggleButton:hover {
@@ -46,14 +46,13 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .adminButton:hover {
     background-color: #e68900;
 }
 
-/* Main Content Styles */
 .main {
     flex: 1;
     display: flex;
@@ -67,6 +66,7 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .section {
@@ -88,6 +88,7 @@
 .formGroup {
     display: flex;
     flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .formGroup label {
@@ -101,12 +102,14 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .formGroup p {
     padding: 8px;
     background-color: #f9f9f9;
     border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .buttonGroup {
@@ -122,7 +125,7 @@
     cursor: pointer;
     color: white;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .modify {
@@ -160,7 +163,6 @@
     background-color: #5a6268;
 }
 
-/* Dark and Light Mode Styles */
 .dark {
     background-color: #121212;
     color: #e0e0e0;
@@ -172,7 +174,6 @@
     border-bottom: 1px solid #333;
 }
 
-/* Ensure form elements also adapt to dark mode */
 .dark .formGroup input,
 .dark .formGroup select,
 .dark .formGroup textarea {

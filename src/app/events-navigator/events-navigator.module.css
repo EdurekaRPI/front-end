@@ -1,0 +1,163 @@
+.page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.headerButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.toggleButton, .returnButton {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    border: 2px solid #007bff;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggleButton:hover, .returnButton:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    border-right: 1px solid #ccc;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.searchInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.eventList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.eventItem {
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+}
+
+.eventItem:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.activeEvent {
+    border-color: #007bff;
+    background-color: #e0f0ff;
+}
+
+.mainContent {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navButtons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.navButton {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 2px solid #007bff;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navButton:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.dark {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark .header {
+    background-color: #1f1f1f;
+    border-bottom: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.dark .sidebar {
+    background-color: #1f1f1f;
+    border-right: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.dark .searchInput {
+    background-color: #2c2c2c;
+    border: 1px solid #555;
+    color: #e0e0e0;
+}
+
+.dark .eventItem {
+    background-color: transparent;
+    border: 1px solid #555;
+    color: #e0e0e0;
+}
+
+.dark .eventItem:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.dark .activeEvent {
+    background-color: #2c2c2c;
+    border-color: #007bff;
+}
+
+.dark .mainContent {
+    background-color: #121212;
+    color: #e0e0e0;
+}

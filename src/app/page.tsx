@@ -30,9 +30,9 @@ export default function EventPage() {
   });
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [goingList, setGoingList] = useState<string[]>([]); // Assuming list of user names or IDs
-  const [isEditing, setIsEditing] = useState<boolean>(false); // State for edit mode
-  const [originalData, setOriginalData] = useState<FormData | null>(null); // To store original data for cancel
+  const [goingList, setGoingList] = useState<string[]>([]);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [originalData, setOriginalData] = useState<FormData | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -60,32 +60,27 @@ export default function EventPage() {
   };
 
   const handleApprove = () => {
-    // Approve logic
     console.log('Approved:', formData);
-    // Add API call to approve the event
+    // Add API call
   };
 
   const handleReject = () => {
-    // Reject logic
     console.log('Rejected:', formData);
-    // Add API call to reject the event
+    // Add API call
   };
 
   const handleEdit = () => {
-    // Enter edit mode
-    setOriginalData(formData); // Save current data in case of cancel
+    setOriginalData(formData);
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    // Save logic
     console.log('Saved:', formData);
-    // Add API call to save the edited event
+    // Add API call
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    // Cancel editing and revert to original data
     if (originalData) {
       setFormData(originalData);
     }
@@ -98,30 +93,22 @@ export default function EventPage() {
 
   return (
       <div className={`${styles.container} ${isDarkMode ? styles.dark : styles.light}`}>
-        {/* Header */}
         <header className={styles.header}>
           <h1>Event Manager</h1>
           <div className={styles.headerButtons}>
-            {/* Dark mode toggle */}
             <button className={styles.toggleButton} onClick={toggleDarkMode}>
               {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
             </button>
-            {/* Admin Log In button using Link */}
             <Link href="/admin-login">
-              <button className={styles.adminButton}>
-                Admin Log In
-              </button>
+              <button className={styles.adminButton}>Admin Log In</button>
             </Link>
           </div>
         </header>
-
-        {/* Main Content */}
         <main className={styles.main}>
           <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
             <div className={styles.section}>
               <h2>Event Details</h2>
               <div className={styles.grid}>
-                {/* Name */}
                 <div className={styles.formGroup}>
                   <label htmlFor="name">Event Name</label>
                   {isEditing ? (
@@ -139,7 +126,6 @@ export default function EventPage() {
                   )}
                 </div>
 
-                {/* Type */}
                 <div className={styles.formGroup}>
                   <label htmlFor="type">Type</label>
                   {isEditing ? (
@@ -157,7 +143,6 @@ export default function EventPage() {
                   )}
                 </div>
 
-                {/* Hosting Type */}
                 <div className={styles.formGroup}>
                   <label htmlFor="hostingType">Hosting Type</label>
                   {isEditing ? (
@@ -176,7 +161,6 @@ export default function EventPage() {
                   )}
                 </div>
 
-                {/* Hosting ID */}
                 <div className={styles.formGroup}>
                   <label htmlFor="hostingId">Hosting ID</label>
                   {isEditing ? (
@@ -199,7 +183,6 @@ export default function EventPage() {
             <div className={styles.section}>
               <h2>Location & Time</h2>
               <div className={styles.grid}>
-                {/* Location */}
                 <div className={styles.formGroup}>
                   <label htmlFor="location">Location</label>
                   {isEditing ? (
@@ -216,8 +199,6 @@ export default function EventPage() {
                       <p>{formData.location || 'N/A'}</p>
                   )}
                 </div>
-
-                {/* Date */}
                 <div className={styles.formGroup}>
                   <label htmlFor="date">Date & Time</label>
                   {isEditing ? (
@@ -259,7 +240,6 @@ export default function EventPage() {
             <div className={styles.section}>
               <h2>Additional Information</h2>
               <div className={styles.grid}>
-                {/* Image */}
                 <div className={styles.formGroup}>
                   <label htmlFor="image">Event Image</label>
                   {isEditing ? (
@@ -280,7 +260,6 @@ export default function EventPage() {
                   )}
                 </div>
 
-                {/* Classroom ID */}
                 <div className={styles.formGroup}>
                   <label htmlFor="classroomId">Classroom ID</label>
                   {isEditing ? (
@@ -299,7 +278,6 @@ export default function EventPage() {
               </div>
             </div>
 
-            {/* Going List */}
             <div className={styles.section}>
               <h2>Attendees</h2>
               <div className={styles.formGroup}>
@@ -316,7 +294,6 @@ export default function EventPage() {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className={styles.buttonGroup}>
               {isEditing ? (
                   <>

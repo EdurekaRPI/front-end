@@ -40,7 +40,7 @@
 
 .adminButton {
     padding: 8px 12px;
-    background-color: #ff9800; /* Orange color */
+    background-color: #ff9800;
     color: white;
     border: none;
     border-radius: 4px;
@@ -50,7 +50,7 @@
 }
 
 .adminButton:hover {
-    background-color: #e68900; /* Darker orange on hover */
+    background-color: #e68900;
 }
 
 /* Main Content Styles */
@@ -128,7 +128,6 @@
 .modify {
     background-color: #007bff;
 }
-
 .modify:hover {
     background-color: #0056b3;
 }
@@ -136,7 +135,6 @@
 .approve {
     background-color: #28a745;
 }
-
 .approve:hover {
     background-color: #1e7e34;
 }
@@ -144,7 +142,6 @@
 .reject {
     background-color: #dc3545;
 }
-
 .reject:hover {
     background-color: #c82333;
 }
@@ -152,7 +149,6 @@
 .save {
     background-color: #28a745;
 }
-
 .save:hover {
     background-color: #1e7e34;
 }
@@ -160,7 +156,6 @@
 .cancel {
     background-color: #6c757d;
 }
-
 .cancel:hover {
     background-color: #5a6268;
 }
@@ -177,11 +172,17 @@
     border-bottom: 1px solid #333;
 }
 
+/* Ensure form elements also adapt to dark mode */
 .dark .formGroup input,
 .dark .formGroup select,
 .dark .formGroup textarea {
     background-color: #2c2c2c;
     border: 1px solid #555;
+    color: #e0e0e0;
+}
+
+.dark .formGroup p {
+    background-color: #2c2c2c;
     color: #e0e0e0;
 }
 

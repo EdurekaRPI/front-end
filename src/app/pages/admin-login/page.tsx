@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import styles from './admin-login.module.css';
+import styles from '../../styles/admin-login.module.css';
 
 export default function Page() {
     const [isDarkMode, setIsDarkMode] = useState(false);

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
-import styles from './report-problem.module.css';
+import styles from '../../styles/report-problem.module.css';
 
 export default function ReportProblemPage() {
     const [isDarkMode, setIsDarkMode] = useState(true);

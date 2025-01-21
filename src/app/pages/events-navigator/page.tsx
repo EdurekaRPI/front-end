@@ -2,7 +2,7 @@
 
 import { useState, useEffect, ChangeEvent } from 'react';
 import Link from 'next/link';
-import styles from './events-navigator.module.css';
+import styles from '../../styles/events-navigator.module.css';
 
 //example events
 interface EventItem {

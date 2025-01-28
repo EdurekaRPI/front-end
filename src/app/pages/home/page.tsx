@@ -2,7 +2,7 @@
 
 import { useState, useEffect, ChangeEvent } from 'react';
 import Link from 'next/link';
-import styles from './page.module.css';
+import styles from '../../styles/home.module.css';
 
 interface FormData {
   name: string;

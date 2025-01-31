@@ -7,6 +7,18 @@ const nextConfig = {
           destination: '/pages/home',
         },
         {
+          source: '/newevent',
+          destination: '/pages/newEvent',
+        },
+        {
+          source: '/reportproblem',
+          destination: '/pages/reportProblem',
+        },
+        {
+          source: '/home-old',
+          destination: '/pages/home-old',
+        },
+        {
           source: '/admin-login',
           destination: '/pages/admin-login',
         },

@@ -6,6 +6,19 @@
     height: 50vh;
 }
 
-.input{
+.inputContainer{
     margin-top: 30px;
 }
+
+.textBox {
+    width: 50%; 
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    resize: vertical; 
+    min-height: 50px; 
+  }

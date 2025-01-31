@@ -5,8 +5,8 @@ import styles from "../styles/navbar.module.css";
 export default function Navbar() {
   const initialNavigation = [
     { name: "Home", href: "/", current: false },
-    { name: "New Event", href: "/newevent", current: false },
-    { name: "Report Problem", href: "/reportproblem", current: false },
+    { name: "New Event", href: "/new-event", current: false },
+    { name: "Report Problem", href: "/report-problem", current: false },
   ];
 
   const [navigation, setNavigation] = useState(initialNavigation);

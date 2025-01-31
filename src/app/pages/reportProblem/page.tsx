@@ -1,7 +1,7 @@
 
 import Navbar from "../../components/navbar";
 
-export default function newEvent() {
+export default function ReportProblem() {
   
 
   return (

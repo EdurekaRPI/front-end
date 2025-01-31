@@ -1,0 +1,32 @@
+.container{
+    background-color: #769FCD;
+    padding-left: 30px;
+    height: 7vh;
+    display: flex;
+    align-items: center;
+}
+
+.title{
+    font-size: x-large;
+    color: white;
+}
+
+.tabs{
+    font-size: large;
+    padding-left: 30px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.currentTab{
+    color: white;
+    border-bottom: 2px solid #0a4b95;
+}
+
+.remainingTabs{
+    color: white;
+}
+.remainingTabs:hover{
+    color: lightgrey;
+}

@@ -11,12 +11,12 @@ const nextConfig = {
           destination: '/pages/admin-login',
         },
         {
-          source: '/events-navigator',
-          destination: '/pages/events-navigator',
+          source: '/new-event',
+          destination: '/pages/newEvent',
         },
         {
           source: '/report-problem',
-          destination: '/pages/report-problem',
+          destination: '/pages/reportProblem',
         }
       ];
     },

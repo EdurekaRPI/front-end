@@ -4,10 +4,12 @@ import Navbar from "../../components/navbar";
 import styles from "../../styles/reportproblem.module.css";
 import { PageLoading } from "../../components/pageLoading";
 import { Button } from "@headlessui/react";
+import emailjs from '@emailjs/browser';
 
 export default function reportProblem() {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const form = useRef<HTMLFormElement | null>(null); // Reference to the form
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
@@ -22,9 +24,34 @@ export default function reportProblem() {
   };
 
   useEffect(() => {
+    console.log("Service ID from .env:", process.env.NEXT_PUBLIC_SERVICE_ID);
+    console.log("Template ID from .env:", process.env.NEXT_PUBLIC_TEMPLATE_ID);
+    console.log("User ID from .env:", process.env.NEXT_PUBLIC_USER_ID);
+  }, []);
+  
+
+  useEffect(() => {
     resizeTextarea(); // Ensure resizing on initial load
   }, []);
 
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (form.current) {
+      emailjs
+        .sendForm(process.env.NEXT_PUBLIC_SERVICE_ID as string, process.env.NEXT_PUBLIC_TEMPLATE_ID as string, form.current, process.env.NEXT_PUBLIC_USER_ID as string)
+        .then(
+          () => {
+            console.log("SUCCESS!");
+            alert("Your message has been sent!");
+          },
+          (error) => {
+            console.log("FAILED...", error.text);
+            alert("Something went wrong. Please try again.");
+          }
+        );
+    }
+  };
   return (
     <>
       <Navbar />
@@ -36,13 +63,15 @@ export default function reportProblem() {
             Edureka, please describe your issue in detail in the entry form to
             the left. Once the email is sent to
             rcos-leadership@googlegroups.com, Edureka staff will respond to you
-            as quickly as possible. Otherwise, visit the FAQ page for more information.
+            as quickly as possible. Otherwise, visit the FAQ page for more
+            information.
           </div>
         </div>
         <div className={styles.report}>
           <span style={{ fontSize: "50px" }}>Need Help?</span>
-          <div className={`mb-6 ${styles.inputContainer}`}>
+          {/* <div className={`mb-6 ${styles.inputContainer}`}>
             <textarea
+              name="user_report"
               ref={textareaRef}
               className={styles.textBox}
               value={value}
@@ -58,7 +87,27 @@ export default function reportProblem() {
                 Send Email
               </Button>
             </a>
-          </div>
+          </div> */}
+          <form ref={form} onSubmit={sendEmail}> {/* Added form reference */}
+            <div className={`mb-6 ${styles.inputContainer}`}>
+              <textarea
+                name="user_report"
+                ref={textareaRef}
+                className={styles.textBox}
+                value={value}
+                onChange={handleInputChange}
+                placeholder="Describe your problem..."
+              />
+            </div>
+            <div>
+              <Button
+                type="submit"
+                className={`rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700`}
+              >
+                Send Email
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </>

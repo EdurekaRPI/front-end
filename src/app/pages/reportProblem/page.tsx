@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar";
 import styles from "../../styles/reportproblem.module.css";
 import { PageLoading } from "../../components/pageLoading";
 import { Button } from "@headlessui/react";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 export default function reportProblem() {
   const [value, setValue] = useState("");
@@ -28,7 +28,6 @@ export default function reportProblem() {
     console.log("Template ID from .env:", process.env.NEXT_PUBLIC_TEMPLATE_ID);
     console.log("User ID from .env:", process.env.NEXT_PUBLIC_USER_ID);
   }, []);
-  
 
   useEffect(() => {
     resizeTextarea(); // Ensure resizing on initial load
@@ -39,7 +38,12 @@ export default function reportProblem() {
 
     if (form.current) {
       emailjs
-        .sendForm(process.env.NEXT_PUBLIC_SERVICE_ID as string, process.env.NEXT_PUBLIC_TEMPLATE_ID as string, form.current, process.env.NEXT_PUBLIC_USER_ID as string)
+        .sendForm(
+          process.env.NEXT_PUBLIC_SERVICE_ID as string,
+          process.env.NEXT_PUBLIC_TEMPLATE_ID as string,
+          form.current,
+          process.env.NEXT_PUBLIC_USER_ID as string
+        )
         .then(
           () => {
             console.log("SUCCESS!");
@@ -69,27 +73,31 @@ export default function reportProblem() {
         </div>
         <div className={styles.report}>
           <span style={{ fontSize: "50px" }}>Need Help?</span>
-          {/* <div className={`mb-6 ${styles.inputContainer}`}>
-            <textarea
-              name="user_report"
-              ref={textareaRef}
-              className={styles.textBox}
-              value={value}
-              onChange={handleInputChange}
-              placeholder="Describe your problem..."
-            />
-          </div>
-          <div>
-            <a href="/">
-              <Button
-                className={`rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700`}
-              >
-                Send Email
-              </Button>
-            </a>
-          </div> */}
-          <form ref={form} onSubmit={sendEmail}> {/* Added form reference */}
+          <form ref={form} onSubmit={sendEmail}>
             <div className={`mb-6 ${styles.inputContainer}`}>
+              <label htmlFor="name">Your Name</label>
+              <input
+                type="text"
+                id="name"
+                name="users_name" // This maps to the "from_name" placeholder in the EmailJS template
+                className={styles.textBox}
+                required
+              />
+            </div>
+
+            <div className={`mb-6 ${styles.inputContainer}`}>
+              <label htmlFor="email">Your Email</label>
+              <input
+                type="email"
+                id="email"
+                name="users_email" // This maps to the "from_email" placeholder in the EmailJS template
+                className={styles.textBox}
+                required
+              />
+            </div>
+
+            <div className={`mb-6 ${styles.inputContainer}`}>
+              <label htmlFor="email">Your Problem</label>
               <textarea
                 name="user_report"
                 ref={textareaRef}
@@ -99,6 +107,7 @@ export default function reportProblem() {
                 placeholder="Describe your problem..."
               />
             </div>
+
             <div>
               <Button
                 type="submit"
@@ -113,3 +122,6 @@ export default function reportProblem() {
     </>
   );
 }
+
+
+

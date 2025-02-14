@@ -49,11 +49,6 @@ export default function Navbar() {
     return classes.filter(Boolean).join(" ");
   }
 
-  // Only render the navigation when the page is no longer in the loading state
-  if (loading) {
-    return null; // add spinner later if needed
-  }
-
   return (
     <>
       <div className={styles.container}>

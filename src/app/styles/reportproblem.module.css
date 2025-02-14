@@ -18,6 +18,10 @@
     flex-direction: column; 
 }
 
+.submitButton{
+    margin-top: 30px;
+}
+
 .textBox { 
     padding: 12px 20px;
     border: 1px solid #ccc;

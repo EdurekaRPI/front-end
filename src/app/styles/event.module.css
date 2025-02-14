@@ -1,0 +1,36 @@
+/* Event.module.css */
+.eventContainer {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 400px;
+    margin: 10px auto;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .eventHeader {
+    margin-bottom: 12px;
+  }
+  
+  .eventName {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .eventOrganizer {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0 0;
+  }
+  
+  .eventDetails {
+    margin-top: 12px;
+  }
+  
+  .eventDate, .eventTime {
+    font-size: 1rem;
+    color: #777;
+  }
+  

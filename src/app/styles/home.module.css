@@ -1,7 +1,7 @@
 .calendarContainer {
   display: flex;
   justify-content: center;
-  width: 80vw;
+  width: 91vw;
   height: 100vh; /* Ensure it centers vertically */
   margin: 0 auto; /* This will ensure the container is centered if there's extra space */
 }
@@ -15,21 +15,16 @@
 
 .header {
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 columns for the days */
+  grid-template-columns: repeat(7, 13vw); /* 7 columns for the days */
   font-weight: bold;
   text-align: center;
   background-color: #f0f0f0;
-  padding: 10px;
-}
-
-.day {
-  padding: 10px;
+  padding: 20px 0px 20px 0px;
 }
 
 .body {
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 columns for the days */
-  grid-gap: 5px;
+  grid-template-columns: repeat(7, 13vw); /* 7 columns for the days */
 }
 
 .row {
@@ -40,59 +35,10 @@
   padding: 30px;
   border: 1px solid #ddd;
   text-align: center;
-  min-height: 50px;
+  min-height: 50vh;
   background-color: #fafafa;
 }
 
 .cell:hover {
   background-color: #e0e0e0;
 }
-
-
-/* .calendar {
-    display: grid;
-    grid-template-columns: 100px repeat(7, 1fr);  
-    grid-template-rows: auto repeat(24, 1fr);   
-    gap: 1px;                                  
-  }
-  
-  .header {
-    display: contents;
-  }
-  
-  .empty {
-    background-color: #fff;
-  }
-  
-  .day {
-    background-color: #f0f0f0;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: 100px repeat(7, 1fr);
-    grid-template-rows: repeat(24, 1fr);    
-  }
-  
-  .hour {
-    background-color: #e0e0e0;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    border-right: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .cell {
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f9f9f9;  
-  }
-   */

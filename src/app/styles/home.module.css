@@ -42,3 +42,36 @@
 .cell:hover {
   background-color: #e0e0e0;
 }
+
+.weekHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 20px;
+}
+
+.arrowButton {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.arrowButton:hover {
+  text-decoration: underline;
+}
+
+.currentWeek {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.todayButton{
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin-left: 10px;
+}

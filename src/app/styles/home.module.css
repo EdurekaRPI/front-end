@@ -45,10 +45,10 @@
 
 .weekHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   padding: 0 20px;
+  gap: 5px;
 }
 
 .arrowButton {
@@ -59,19 +59,16 @@
   font-weight: bold;
 }
 
-.arrowButton:hover {
-  text-decoration: underline;
-}
-
 .currentWeek {
   font-size: 1.2rem;
   font-weight: bold;
   color: #333;
+  display: flex;
+  gap: 5
 }
 
 .todayButton{
   background-color: transparent;
   border: 1px solid #333;
   border-radius: 5px;
-  margin-left: 10px;
 }

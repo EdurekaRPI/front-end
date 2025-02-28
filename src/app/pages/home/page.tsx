@@ -6,22 +6,34 @@ import Event from "../../components/event";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs"; // Import dayjs and Dayjs type
+
 
 // Helper function to get the start of the week (Sunday) from a given date
-const getStartOfWeek = (date: Date): Date => {
-  const day = date.getDay();
-  const diff = date.getDate() - day; // Get the difference from Sunday
-  const sunday = new Date(date.setDate(diff));
-  sunday.setHours(0, 0, 0, 0); // Set the time to midnight
-  return sunday;
+const getStartOfWeek = (date: Dayjs): Dayjs => {
+  const day = date.day();
+  const diff = date.date() - day; // Get the difference from Sunday
+  const sunday = date.set("date", diff); // Set the date to the start of the week (Sunday)
+  return sunday.startOf("day"); // Set time to midnight
 };
 
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 // Helper function to format a date to YYYY-MM-DD format
-const formatDate = (date: Date): string => {
-  const year = date.getFullYear();
-  const month = `0${date.getMonth() + 1}`.slice(-2); // Adding leading zero if necessary
-  const day = `0${date.getDate()}`.slice(-2);
-  return `${month}-${day}-${year}`;
+const formatDate = (date: Dayjs): string => {
+  const year = date.year();
+  const month = monthNames[date.month()].substring(0, 3); // Get the short name of the month
+  const day = `0${date.date()}`.slice(-2);
+  return `${month} ${day} ${year}`;
 };
 
 type DaysOfWeek =
@@ -34,7 +46,7 @@ type DaysOfWeek =
   | "Saturday";
 
 export default function Home() {
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs());
   const startOfWeek = getStartOfWeek(currentDate);
 
   const daysOfWeek: DaysOfWeek[] = [
@@ -79,20 +91,18 @@ export default function Home() {
 
   // Function to handle week change (next or previous)
   const changeWeek = (direction: number) => {
-    const newDate = new Date(startOfWeek);
-    newDate.setDate(startOfWeek.getDate() + direction * 7); // Move the date forward or backward by 1 week
+    const newDate = startOfWeek.add(direction * 7, "day"); // Move the date forward or backward by 1 week
     setCurrentDate(newDate);
   };
 
   // Calculate the current week's start and end dates
   const startOfCurrentWeek = getStartOfWeek(currentDate);
-  const endOfCurrentWeek = new Date(startOfCurrentWeek);
-  endOfCurrentWeek.setDate(startOfCurrentWeek.getDate() + 6); // End is 6 days after the start of the week
+  const endOfCurrentWeek = startOfCurrentWeek.add(6, "day");
 
   const setToday = () => {
-    setCurrentDate(new Date());
-  }
-
+    setCurrentDate(dayjs()); // Set to today's date as a Dayjs object
+  };
+  
   return (
     <>
       <Navbar />
@@ -100,27 +110,33 @@ export default function Home() {
         <div className={styles.calendar}>
           {/* Header with the current week and navigation arrows */}
           <div className={styles.weekHeader}>
-            <button
-              className={styles.arrowButton}
-              onClick={() => changeWeek(-1)}
-            >
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
             <div className={styles.currentWeek}>
               {formatDate(startOfCurrentWeek)} - {formatDate(endOfCurrentWeek)}
               <button
-                className={styles.todayButton}
-                onClick={() => setToday()}
+                className={styles.arrowButton}
+                onClick={() => changeWeek(-1)}
               >
-                Today
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </button>
+              <button
+                className={styles.arrowButton}
+                onClick={() => changeWeek(1)}
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+              <button className={styles.arrowButton} onClick={() => setToday()}>
+                <FontAwesomeIcon icon={faArrowsRotate} />
               </button>
             </div>
-            <button
-              className={styles.arrowButton}
-              onClick={() => changeWeek(1)}
-            >
-              <FontAwesomeIcon icon={faArrowRight} />
-            </button>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  label="Select Date"
+                  value={currentDate}
+                  onChange={(newDate) => newDate && setCurrentDate(newDate)} 
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </div>
 
           <div className={styles.header}>

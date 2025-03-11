@@ -4,13 +4,11 @@ import styles from "../styles/event.module.css";
 interface EventProps {
   name: string;
   organizer: string;
-  month: string;
-  day: string;
-  year: string;
+  date: string;
   time: string;
 }
 
-const Event: React.FC<EventProps> = ({ name, organizer, month, day, year, time }) => {
+const Event: React.FC<EventProps> = ({ name, organizer, date, time }) => {
   return (
     <div className={styles.eventContainer}>
       <div className={styles.eventHeader}>
@@ -18,7 +16,7 @@ const Event: React.FC<EventProps> = ({ name, organizer, month, day, year, time }
         <p className={styles.eventOrganizer}>Organized by: {organizer}</p>
       </div>
       <div className={styles.eventDetails}>
-        <p className={styles.eventDate}>Date: {month + ", " + day + " " + year}</p>
+        <p className={styles.eventDate}>Date: {date}</p>
         <p className={styles.eventTime}>Time: {time}</p>
       </div>
     </div>

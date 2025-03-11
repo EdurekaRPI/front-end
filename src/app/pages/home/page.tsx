@@ -12,7 +12,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs, { Dayjs } from "dayjs"; // Import dayjs and Dayjs type
+import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween"; 
 
 
@@ -46,55 +46,65 @@ type DaysOfWeek =
   | "Friday"
   | "Saturday";
 
+// Updated events data structure (no need for day, month, or year)
+const events = [
+  {
+    name: "Tech Conference 2025",
+    organizer: "Tech Inc.",
+    date: "2025-05-18", // Use the actual date
+    time: "10:00 AM",
+  },
+  {
+    name: "Art Exhibition",
+    organizer: "Creative Studios",
+    date: "2025-05-19",
+    time: "6:00 PM",
+  },
+  {
+    name: "Art Exhibition",
+    organizer: "Creative Studios",
+    date: "2025-05-20",
+    time: "6:00 PM",
+  },
+  {
+    name: "Art Exhibition",
+    organizer: "Creative Studios",
+    date: "2025-05-21",
+    time: "6:00 PM",
+  },
+  {
+    name: "Art Exhibition",
+    organizer: "Creative Studios",
+    date: "2025-05-22",
+    time: "6:00 PM",
+  },
+  {
+    name: "Art Exhibition",
+    organizer: "Creative Studios",
+    date: "2025-05-23",
+    time: "6:00 PM",
+  },
+  {
+    name: "Art Exhibition",
+    organizer: "Creative Studios",
+    date: "2025-05-24",
+    time: "6:00 PM",
+  },
+  {
+    name: "blahhhh",
+    organizer: "Tech Inc.",
+    date: "2025-05-18", // Use the actual date
+    time: "10:00 AM",
+  },
+];
+
 export default function Home() {
   const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs());
   const startOfWeek = getStartOfWeek(currentDate);
 
   const daysOfWeek: DaysOfWeek[] = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
   ];
-
-  const events = {
-    Sunday: [
-      {
-        name: "Tech Conference 2025",
-        organizer: "Tech Inc.",
-        month: "June",
-        day: "15",
-        year: "2025",
-        time: "10:00 AM",
-      },
-    ],
-    Monday: [
-      {
-        name: "Art Exhibition",
-        organizer: "Creative Studios",
-        month: "May",
-        day: "22",
-        year: "2025",
-        time: "6:00 PM",
-      },
-      {
-        name: "Web Development Workshop",
-        organizer: "DevHub",
-        month: "May",
-        day: "22",
-        year: "2025",
-        time: "2:00 PM",
-      },
-    ],
-    Tuesday: [],
-    Wednesday: [],
-    Thursday: [],
-    Friday: [],
-    Saturday: [],
-  };
 
   // Function to handle week change (next or previous)
   const changeWeek = (direction: number) => {
@@ -110,11 +120,21 @@ export default function Home() {
     setCurrentDate(dayjs()); // Set to today's date as a Dayjs object
   };
 
-  const isEventInSelectedWeek = (month: string, day: string, year: string) => {
-    const eventDay = dayjs(`${year}-${month}-` + (`0${day}`.slice(-2))); // Format the date for dayjs
+  // Filter events to only those in the selected week
+  const isEventInSelectedWeek = (eventDate: string) => {
+    const eventDay = dayjs(eventDate); 
     return eventDay.isBetween(startOfCurrentWeek, endOfCurrentWeek, null, "[]"); // Check if the event is within the range
   };
 
+  // acc is {} at start
+  const eventsByDay = daysOfWeek.reduce((acc, day) => {
+    acc[day] = events.filter((event) => {
+      const eventDay = dayjs(event.date); 
+      return eventDay.format('dddd') === day && isEventInSelectedWeek(event.date); //check day of the week of event
+    });
+    return acc;
+  }, {} as Record<DaysOfWeek, any[]>);
+  
 
   return (
     <>
@@ -157,22 +177,19 @@ export default function Home() {
               <div key={index}>{day}</div>
             ))}
           </div>
+
           <div className={styles.body}>
             {daysOfWeek.map((day, idx) => (
               <div key={idx} className={styles.cell}>
-                {events[day]
-                  .filter((event) => isEventInSelectedWeek(event.month, event.day, event.year)) // Filter events that are in the selected week
-                  .map((event, eventIdx) => (
-                    <Event
-                      key={eventIdx}
-                      name={event.name}
-                      organizer={event.organizer}
-                      month={event.month}
-                      day={event.day}
-                      year={event.year}
-                      time={event.time}
-                    />
-                  ))}
+                {eventsByDay[day].map((event, eventIdx) => (
+                  <Event
+                    key={eventIdx}
+                    name={event.name}
+                    organizer={event.organizer}
+                    date={event.date} 
+                    time={event.time}
+                  />
+                ))}
               </div>
             ))}
           </div>

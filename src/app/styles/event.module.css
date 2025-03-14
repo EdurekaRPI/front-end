@@ -1,8 +1,8 @@
 .eventContainer {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 16px;
-  max-width: 400px;
+  padding: 8px;
+  width: 100%;
   background-color: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   word-wrap: break-word; 
@@ -15,8 +15,8 @@
 }
 
 .eventName {
-  font-size: 1.6rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: underline;
   margin: 0;
   word-wrap: break-word; 
   overflow-wrap: break-word;
@@ -40,3 +40,4 @@
   word-wrap: break-word; 
   overflow-wrap: break-word; 
 }
+

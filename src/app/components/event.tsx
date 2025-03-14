@@ -13,7 +13,7 @@ const Event: React.FC<EventProps> = ({ name, organizer, date, time }) => {
     <div className={styles.eventContainer}>
       <div className={styles.eventHeader}>
         <h2 className={styles.eventName}>{name}</h2>
-        <p className={styles.eventOrganizer}>Organized by: {organizer}</p>
+        <p className={styles.eventOrganizer}>{organizer}</p>
       </div>
       <div className={styles.eventDetails}>
         <p className={styles.eventDate}>Date: {date}</p>

@@ -13,8 +13,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
-import isBetween from "dayjs/plugin/isBetween"; 
-
+import isBetween from "dayjs/plugin/isBetween";
 
 // Helper function to get the start of the week (Sunday) from a given date
 const getStartOfWeek = (date: Dayjs): Dayjs => {
@@ -25,8 +24,18 @@ const getStartOfWeek = (date: Dayjs): Dayjs => {
 };
 
 const monthNames = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 // Helper function to format a date to YYYY-MM-DD format
@@ -103,7 +112,13 @@ export default function Home() {
   const startOfWeek = getStartOfWeek(currentDate);
 
   const daysOfWeek: DaysOfWeek[] = [
-    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
 
   // Function to handle week change (next or previous)
@@ -122,19 +137,20 @@ export default function Home() {
 
   // Filter events to only those in the selected week
   const isEventInSelectedWeek = (eventDate: string) => {
-    const eventDay = dayjs(eventDate); 
+    const eventDay = dayjs(eventDate);
     return eventDay.isBetween(startOfCurrentWeek, endOfCurrentWeek, null, "[]"); // Check if the event is within the range
   };
 
   // acc is {} at start
   const eventsByDay = daysOfWeek.reduce((acc, day) => {
     acc[day] = events.filter((event) => {
-      const eventDay = dayjs(event.date); 
-      return eventDay.format('dddd') === day && isEventInSelectedWeek(event.date); //check day of the week of event
+      const eventDay = dayjs(event.date);
+      return (
+        eventDay.format("dddd") === day && isEventInSelectedWeek(event.date)
+      ); //check day of the week of event
     });
     return acc;
   }, {} as Record<DaysOfWeek, any[]>);
-  
 
   return (
     <>
@@ -166,7 +182,7 @@ export default function Home() {
                 <DatePicker
                   label="Select Date"
                   value={currentDate}
-                  onChange={(newDate) => newDate && setCurrentDate(newDate)} 
+                  onChange={(newDate) => newDate && setCurrentDate(newDate)}
                 />
               </DemoContainer>
             </LocalizationProvider>
@@ -186,10 +202,35 @@ export default function Home() {
                     key={eventIdx}
                     name={event.name}
                     organizer={event.organizer}
-                    date={event.date} 
+                    date={event.date}
                     time={event.time}
                   />
                 ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Responsive */}
+          <div className={styles.containerResponsive}>
+            {daysOfWeek.map((day, index) => (
+              <div key={index} className={styles.dayGroup}>
+                {/* Day header */}
+                <div className={styles.headerResponsive}>
+                  <div>{day}</div>
+                </div>
+
+                {/* Events for the current day */}
+                <div className={styles.bodyResponsive}>
+                  {eventsByDay[day].map((event, eventIdx) => (
+                    <Event
+                      key={eventIdx}
+                      name={event.name}
+                      organizer={event.organizer}
+                      date={event.date}
+                      time={event.time}
+                    />
+                  ))}
+                </div>
               </div>
             ))}
           </div>

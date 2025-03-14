@@ -221,15 +221,17 @@ export default function Home() {
 
                 {/* Events for the current day */}
                 <div className={styles.bodyResponsive}>
-                  {eventsByDay[day].map((event, eventIdx) => (
-                    <Event
-                      key={eventIdx}
-                      name={event.name}
-                      organizer={event.organizer}
-                      date={event.date}
-                      time={event.time}
-                    />
-                  ))}
+                  <div key={index} className={styles.cell}>
+                    {eventsByDay[day].map((event, eventIdx) => (
+                      <Event
+                        key={eventIdx}
+                        name={event.name}
+                        organizer={event.organizer}
+                        date={event.date}
+                        time={event.time}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}

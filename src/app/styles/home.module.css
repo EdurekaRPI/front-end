@@ -101,7 +101,12 @@
     grid-template-columns: repeat(1, 1fr); /* 7 columns for the days */
     width: 100%;  /* Ensure header and body take full width of calendar */
   }
-  
+
+  /* Remove min-height in "mobile" mode */
+  .cell {
+    min-height: 0vh;
+  }
+
   .containerResponsive{
     display: block;
   }

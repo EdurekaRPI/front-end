@@ -56,6 +56,8 @@ type DaysOfWeek =
   | "Saturday";
 
 // Updated events data structure (no need for day, month, or year)
+
+// ADD Location, description,  
 const events = [
   {
     name: "Tech Conference 2025",
@@ -110,6 +112,13 @@ const events = [
 export default function Home() {
   const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs());
   const startOfWeek = getStartOfWeek(currentDate);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentEvent, setcurrentEvent] = useState<{
+    name: string;
+    organizer: string;
+    date: string;
+    time: string;
+  } | null>(null);
 
   const daysOfWeek: DaysOfWeek[] = [
     "Sunday",
@@ -151,6 +160,11 @@ export default function Home() {
     });
     return acc;
   }, {} as Record<DaysOfWeek, any[]>);
+
+  const toggleModal = (event: any) => {
+    setIsModalOpen(!isModalOpen);
+    setcurrentEvent(event)
+  };
 
   return (
     <>
@@ -199,6 +213,7 @@ export default function Home() {
               <div key={idx} className={styles.cell}>
                 {eventsByDay[day].map((event, eventIdx) => (
                   <Event
+                    onClick={() => toggleModal(event)}
                     key={eventIdx}
                     name={event.name}
                     organizer={event.organizer}
@@ -210,7 +225,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Responsive */}
+          {/* Responsive Calendar */}
           <div className={styles.containerResponsive}>
             {daysOfWeek.map((day, index) => (
               <div key={index} className={styles.dayGroup}>
@@ -224,6 +239,7 @@ export default function Home() {
                   <div key={index} className={styles.cell}>
                     {eventsByDay[day].map((event, eventIdx) => (
                       <Event
+                        onClick={() => toggleModal(event)}
                         key={eventIdx}
                         name={event.name}
                         organizer={event.organizer}
@@ -236,6 +252,67 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          {/* Event Modal */}
+          {isModalOpen && (
+              <div
+                className="modal-overlay"
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 999,
+                }}
+                onClick={toggleModal}
+              />
+            )}
+
+            {/* Modal */}
+            <div
+              className={`modal fade ${isModalOpen ? "show" : ""}`}
+              id="exampleModal"
+              tabIndex={-1}
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden={!isModalOpen}
+              style={isModalOpen ? { display: "block", zIndex: 1000 } : {}}
+            >
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Event Information
+                    </h5>
+                  </div>
+                  <div className="modal-body">
+                  {currentEvent ? (
+                    <>
+                      <div><strong>Name:</strong> {currentEvent.name}</div>
+                      <div><strong>Organizer:</strong> {currentEvent.organizer}</div>
+                      <div><strong>Date:</strong> {currentEvent.date}</div>
+                      <div><strong>Time:</strong> {currentEvent.time}</div>
+                    </>
+                  ) : (
+                    <div>No event selected</div>
+                  )}
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                      onClick={toggleModal}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
         </div>
       </div>
     </>

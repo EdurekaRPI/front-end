@@ -9,6 +9,10 @@
   overflow-wrap: break-word;
   margin: 10px 0px 10px 0px;
 }
+.eventContainer:hover{
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
 
 .eventHeader {
   margin-bottom: 12px;

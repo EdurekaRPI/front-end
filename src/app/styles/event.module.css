@@ -1,0 +1,47 @@
+.eventContainer {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  margin: 10px 0px 10px 0px;
+}
+.eventContainer:hover{
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
+
+.eventHeader {
+  margin-bottom: 12px;
+}
+
+.eventName {
+  font-size: 1.2rem;
+  text-decoration: underline;
+  margin: 0;
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+}
+
+.eventOrganizer {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0 0;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}
+
+.eventDetails {
+  margin-top: 12px;
+}
+
+.eventDate, .eventTime {
+  font-size: 1rem;
+  color: #777;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}
+

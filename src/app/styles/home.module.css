@@ -1,211 +1,115 @@
-.container {
-    min-height: 100vh;
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.calendarContainer {
+  display: flex;
+  justify-content: center;
+  width: 95vw;
+  height: 100vh; /* Ensure it centers vertically */
+  margin: 0 auto; /* This will ensure the container is centered if there's extra space */
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: var(--header-background);
-    color: var(--header-text);
-    border-bottom: 1px solid #eaeaea;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns for the days */
+  font-weight: bold;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 20px 0px 20px 0px;
+  width: 100%;  /* Ensure header and body take full width of calendar */
 }
 
-.headerButtons {
-    display: flex;
-    gap: 10px;
+.body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns for the days */
+  width: 100%;  /* Ensure header and body take full width of calendar */
 }
 
-.toggleButton {
-    padding: 8px 12px;
-    background-color: transparent;
-    border: 2px solid #007bff;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+.row {
+  display: contents; /* Keeps the grid rows with columns */
 }
 
-.toggleButton:hover {
-    background-color: #007bff;
-    color: white;
+.cell {
+  padding: 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+  min-height: 50vh;
+  background-color: #fafafa;
 }
 
-.adminButton {
-    padding: 8px 12px;
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.cell:hover {
+  background-color: #769FCD;
+  cursor: pointer;
 }
 
-.adminButton:hover {
-    background-color: #e68900;
+.weekHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 20px;
+  gap: 5px;
 }
 
-.main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px 0;
+.arrowButton {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.form {
-    width: 100%;
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.currentWeek {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  gap: 5
 }
 
-.section {
-    margin-bottom: 30px;
+.todayButton{
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 5px;
 }
 
-.section h2 {
-    margin-bottom: 15px;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 5px;
+.containerResponsive{
+  display: none;
 }
 
-.grid {
+/* Styling for responsive layout when screen width is less than 1200px */
+@media (max-width: 1200px) {
+  .header, .body {
+    display: none;
+  }
+
+  .headerResponsive {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
+    grid-template-columns: repeat(1, 1fr); /* 7 columns for the days */
+    font-weight: bold;
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 20px 0px 20px 0px;
+    width: 100%;  /* Ensure header and body take full width of calendar */
+  }
+  
+  .bodyResponsive {
+    display: grid;
+    text-align: center;
+    grid-template-columns: repeat(1, 1fr); /* 7 columns for the days */
+    width: 100%;  /* Ensure header and body take full width of calendar */
+  }
 
-.formGroup {
-    display: flex;
-    flex-direction: column;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+  /* Remove min-height in "mobile" mode */
+  .cell {
+    min-height: 0vh;
+  }
 
-.formGroup label {
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.formGroup input,
-.formGroup select,
-.formGroup textarea {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.formGroup p {
-    padding: 8px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.buttonGroup {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.modify {
-    background-color: #007bff;
-}
-.modify:hover {
-    background-color: #0056b3;
-}
-
-.approve {
-    background-color: #28a745;
-}
-.approve:hover {
-    background-color: #1e7e34;
-}
-
-.reject {
-    background-color: #dc3545;
-}
-.reject:hover {
-    background-color: #c82333;
-}
-
-.save {
-    background-color: #28a745;
-}
-.save:hover {
-    background-color: #1e7e34;
-}
-
-.cancel {
-    background-color: #6c757d;
-}
-.cancel:hover {
-    background-color: #5a6268;
-}
-
-.dark {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-.dark .header {
-    background-color: #1f1f1f;
-    color: #e0e0e0;
-    border-bottom: 1px solid #333;
-}
-
-.dark .formGroup input,
-.dark .formGroup select,
-.dark .formGroup textarea {
-    background-color: #2c2c2c;
-    border: 1px solid #555;
-    color: #e0e0e0;
-}
-
-.dark .formGroup p {
-    background-color: #2c2c2c;
-    color: #e0e0e0;
-}
-
-.light {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.light .header {
-    background-color: #f5f5f5;
-    color: #000000;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.light .formGroup input,
-.light .formGroup select,
-.light .formGroup textarea {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    color: #000000;
-}
-
-.light .formGroup p {
-    background-color: #f9f9f9;
-    color: #000000;
+  .containerResponsive{
+    display: block;
+  }
+  
 }

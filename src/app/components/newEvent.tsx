@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/newEvent.module.css"; // Ensure path is correct
 
 export function NewEvent() {
@@ -13,15 +13,33 @@ export function NewEvent() {
     location: "",
     club: "",
   });
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleInputChange = (e: any) => {
+    resizeTextarea();
+    handleChange(e);
+  };
+
+  const resizeTextarea = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto"; // Reset height to auto to allow it to shrink back
+      textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to match the content
+      textarea.style.overflow = "hidden"; // Ensure no scrollbar appears
+    }
+  };
+
+  useEffect(() => {
+    resizeTextarea(); // Ensure resizing on initial load
+  }, []);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // You can handle form submission here, e.g., send the data to an API
     console.log(formData);
   };
 
@@ -50,9 +68,10 @@ export function NewEvent() {
             </label>
             <textarea
               id="description"
+              ref={textareaRef}
               name="description"
               value={formData.description}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
               className={styles.textArea}
             />
@@ -147,7 +166,7 @@ export function NewEvent() {
               className={styles.inputText}
             />
           </div>
-          
+
           <div>
             <button type="submit" className={styles.submitButton}>
               Submit Event

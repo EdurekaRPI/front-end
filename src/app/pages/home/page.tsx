@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/navbar";
 import styles from "../../styles/home.module.css";
 import Event from "../../components/event";
@@ -14,6 +14,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+
+import axios from "axios";
 
 // Helper function to get the start of the week (Sunday) from a given date
 const getStartOfWeek = (date: Dayjs): Dayjs => {
@@ -57,7 +59,7 @@ type DaysOfWeek =
 
 // Updated events data structure (no need for day, month, or year)
 
-// ADD Location, description,  
+// ADD Location, description,
 const events = [
   {
     name: "Tech Conference 2025",
@@ -114,10 +116,10 @@ export default function Home() {
   const startOfWeek = getStartOfWeek(currentDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentEvent, setcurrentEvent] = useState<{
-    name: string;
-    organizer: string;
-    date: string;
-    time: string;
+    title: string;
+    eventHost: string;
+    location: string;
+    club: string;
   } | null>(null);
 
   const daysOfWeek: DaysOfWeek[] = [
@@ -163,8 +165,32 @@ export default function Home() {
 
   const toggleModal = (event: any) => {
     setIsModalOpen(!isModalOpen);
-    setcurrentEvent(event)
+    setcurrentEvent(event);
   };
+
+  // Modify this function to fetch events from your Flask API (local server)
+  const getEvents = (selectedDate: Dayjs) => {
+    const formattedDate = selectedDate.format("YYYY-MM-DD");
+    console.log("Date: ", formattedDate);
+    axios
+      .get(`http://127.0.0.1:5000/get-events`, {
+        params: { date: formattedDate },
+      })
+      .then((response) => {
+        console.log("Fetched events: ", response.data);
+        // Do something with response data (e.g., update state)
+        // const updatedEvents = [...events, ...response.data];
+        // console.log("Updated events: ", updatedEvents);
+        response.data.forEach((newEvent: any) => events.push(newEvent));
+        console.log(events);
+      })
+      .catch((error) => {
+        console.error("Error fetching events: ", error);
+      });
+  };
+  useEffect(() => {
+    getEvents(currentDate);
+  }, [currentDate]);
 
   return (
     <>
@@ -215,10 +241,10 @@ export default function Home() {
                   <Event
                     onClick={() => toggleModal(event)}
                     key={eventIdx}
-                    name={event.name}
-                    organizer={event.organizer}
-                    date={event.date}
-                    time={event.time}
+                    name={event.title}
+                    organizer={event.eventHost}
+                    date={event.location}
+                    time={event.club}
                   />
                 ))}
               </div>
@@ -241,10 +267,10 @@ export default function Home() {
                       <Event
                         onClick={() => toggleModal(event)}
                         key={eventIdx}
-                        name={event.name}
-                        organizer={event.organizer}
-                        date={event.date}
-                        time={event.time}
+                        name={event.title}
+                        organizer={event.eventHost}
+                        date={event.location}
+                        time={event.club}
                       />
                     ))}
                   </div>
@@ -255,64 +281,67 @@ export default function Home() {
 
           {/* Event Modal */}
           {isModalOpen && (
-              <div
-                className="modal-overlay"
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  zIndex: 999,
-                }}
-                onClick={toggleModal}
-              />
-            )}
-
-            {/* Modal */}
             <div
-              className={`modal fade ${isModalOpen ? "show" : ""}`}
-              id="exampleModal"
-              tabIndex={-1}
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden={!isModalOpen}
-              style={isModalOpen ? { display: "block", zIndex: 1000 } : {}}
-            >
-              <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      Event Information
-                    </h5>
-                  </div>
-                  <div className="modal-body">
+              className="modal-overlay"
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 999,
+              }}
+              onClick={toggleModal}
+            />
+          )}
+
+          {/* Modal */}
+          <div
+            className={`modal fade ${isModalOpen ? "show" : ""}`}
+            id="exampleModal"
+            tabIndex={-1}
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden={!isModalOpen}
+            style={isModalOpen ? { display: "block", zIndex: 1000 } : {}}
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Event Information
+                  </h5>
+                </div>
+                <div className="modal-body">
                   {currentEvent ? (
                     <>
-                      <div><strong>Name:</strong> {currentEvent.name}</div>
-                      <div><strong>Organizer:</strong> {currentEvent.organizer}</div>
-                      <div><strong>Date:</strong> {currentEvent.date}</div>
-                      <div><strong>Time:</strong> {currentEvent.time}</div>
+                      <div>
+                        <strong>Name:</strong> {currentEvent.title}
+                      </div>
+                      <div>
+                        <strong>Organizer:</strong> {currentEvent.eventHost}
+                      </div>
+                      <div><strong>Date:</strong> {currentEvent.location}</div>
+                      <div><strong>Time:</strong> {currentEvent.club}</div>
                     </>
                   ) : (
                     <div>No event selected</div>
                   )}
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                      onClick={toggleModal}
-                    >
-                      Close
-                    </button>
-                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onClick={toggleModal}
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
             </div>
-            
+          </div>
         </div>
       </div>
     </>

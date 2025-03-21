@@ -21,6 +21,7 @@
     "@mui/material": "^6.4.6",
     "@mui/x-date-pickers": "^7.27.1",
     "@popperjs/core": "^2.11.8",
+    "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
     "next": "15.0.3",

@@ -109,7 +109,7 @@ export function NewEvent() {
 
           <div className={styles.formGroup}>
             <label htmlFor="eventHost" className={styles.formLabel}>
-              Event Host
+              Event Club/Host
             </label>
             <input
               type="text"

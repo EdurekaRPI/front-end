@@ -41,11 +41,6 @@
   background-color: #fafafa;
 }
 
-.cell:hover {
-  background-color: #769FCD;
-  cursor: pointer;
-}
-
 .weekHeader {
   display: flex;
   align-items: center;

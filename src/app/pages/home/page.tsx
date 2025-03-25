@@ -13,9 +13,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
-import isBetween from "dayjs/plugin/isBetween";
-
 import axios from "axios";
+import isBetween from "dayjs/plugin/isBetween";
 
 // Helper function to get the start of the week (Sunday) from a given date
 const getStartOfWeek = (date: Dayjs): Dayjs => {
@@ -57,65 +56,12 @@ type DaysOfWeek =
   | "Friday"
   | "Saturday";
 
-// Updated events data structure (no need for day, month, or year)
-
-// ADD Location, description,
-const events = [
-  {
-    name: "Tech Conference 2025",
-    organizer: "Tech Inc.",
-    date: "2025-05-18", // Use the actual date
-    time: "10:00 AM",
-  },
-  {
-    name: "Art Exhibition",
-    organizer: "Creative Studios",
-    date: "2025-05-19",
-    time: "6:00 PM",
-  },
-  {
-    name: "Art Exhibition",
-    organizer: "Creative Studios",
-    date: "2025-05-20",
-    time: "6:00 PM",
-  },
-  {
-    name: "Art Exhibition",
-    organizer: "Creative Studios",
-    date: "2025-05-21",
-    time: "6:00 PM",
-  },
-  {
-    name: "Art Exhibition",
-    organizer: "Creative Studios",
-    date: "2025-05-22",
-    time: "6:00 PM",
-  },
-  {
-    name: "Art Exhibition",
-    organizer: "Creative Studios",
-    date: "2025-05-23",
-    time: "6:00 PM",
-  },
-  {
-    name: "Art Exhibition",
-    organizer: "Creative Studios",
-    date: "2025-05-24",
-    time: "6:00 PM",
-  },
-  {
-    name: "blahhhh",
-    organizer: "Tech Inc.",
-    date: "2025-05-18", // Use the actual date
-    time: "10:00 AM",
-  },
-];
-
 export default function Home() {
   const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs());
+  const [events, setEvents] = useState<any[]>([]); // State to store events
   const startOfWeek = getStartOfWeek(currentDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentEvent, setcurrentEvent] = useState<{
+  const [currentEvent, setCurrentEvent] = useState<{
     title: string;
     eventHost: string;
     location: string;
@@ -152,7 +98,7 @@ export default function Home() {
     return eventDay.isBetween(startOfCurrentWeek, endOfCurrentWeek, null, "[]"); // Check if the event is within the range
   };
 
-  // acc is {} at start
+  // Calculate events by day for the selected week
   const eventsByDay = daysOfWeek.reduce((acc, day) => {
     acc[day] = events.filter((event) => {
       const eventDay = dayjs(event.date);
@@ -165,29 +111,28 @@ export default function Home() {
 
   const toggleModal = (event: any) => {
     setIsModalOpen(!isModalOpen);
-    setcurrentEvent(event);
+    setCurrentEvent(event);
   };
 
-  // Modify this function to fetch events from your Flask API (local server)
+  // Fetch events from the API
   const getEvents = (selectedDate: Dayjs) => {
     const formattedDate = selectedDate.format("YYYY-MM-DD");
-    console.log("Date: ", formattedDate);
+    const herokuApiUrl = process.env.NEXT_PUBLIC_HEROKU_API_URL;
     axios
-      .get(`http://127.0.0.1:5000/get-events`, {
+      .get(`${herokuApiUrl}/api/frontend/week-of-events`, {
         params: { date: formattedDate },
       })
       .then((response) => {
         console.log("Fetched events: ", response.data);
-        // Do something with response data (e.g., update state)
-        // const updatedEvents = [...events, ...response.data];
-        // console.log("Updated events: ", updatedEvents);
-        response.data.forEach((newEvent: any) => events.push(newEvent));
-        console.log(events);
+        // Set the events array state with the new events
+        setEvents(response.data);
       })
       .catch((error) => {
         console.error("Error fetching events: ", error);
       });
   };
+
+  // Fetch events when currentDate changes
   useEffect(() => {
     getEvents(currentDate);
   }, [currentDate]);
@@ -241,10 +186,10 @@ export default function Home() {
                   <Event
                     onClick={() => toggleModal(event)}
                     key={eventIdx}
-                    name={event.title}
-                    organizer={event.eventHost}
-                    date={event.location}
-                    time={event.club}
+                    title={event.title}
+                    eventHost={event.eventHost}
+                    location={event.location}
+                    club={event.club}
                   />
                 ))}
               </div>
@@ -267,10 +212,10 @@ export default function Home() {
                       <Event
                         onClick={() => toggleModal(event)}
                         key={eventIdx}
-                        name={event.title}
-                        organizer={event.eventHost}
-                        date={event.location}
-                        time={event.club}
+                        title={event.title}
+                        eventHost={event.eventHost}
+                        location={event.location}
+                        club={event.club}
                       />
                     ))}
                   </div>
@@ -317,13 +262,13 @@ export default function Home() {
                   {currentEvent ? (
                     <>
                       <div>
-                        <strong>Name:</strong> {currentEvent.title}
+                        <strong>Title:</strong> {currentEvent.title}
                       </div>
                       <div>
-                        <strong>Organizer:</strong> {currentEvent.eventHost}
+                        <strong>Event Host:</strong> {currentEvent.eventHost}
                       </div>
-                      <div><strong>Date:</strong> {currentEvent.location}</div>
-                      <div><strong>Time:</strong> {currentEvent.club}</div>
+                      <div><strong>Location:</strong> {currentEvent.location}</div>
+                      <div><strong>Club:</strong> {currentEvent.club}</div>
                     </>
                   ) : (
                     <div>No event selected</div>

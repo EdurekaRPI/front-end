@@ -1,0 +1,64 @@
+  .formContainer {
+    margin: 0 20vw 0 20vw;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5vh;
+    height: auto;
+  }
+  
+  .formLabel {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .inputText,
+  .inputDateTime,
+  .textArea {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .textArea {
+    height: 100px;
+    resize: none;
+  }
+  
+  .submitButton {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #45a049;
+  }
+  
+  .inputInvalid {
+    border: 1px solid red;
+  }
+  
+  .inputValid {
+    border: 1px solid green;
+  }
+  
+  .submitButtonDisabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

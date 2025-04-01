@@ -102,16 +102,15 @@ export default function Home() {
     return eventDay.isBetween(startOfCurrentWeek, endOfCurrentWeek, null, "[]"); // Check if the event is within the range
   };
 
-  // Calculate events by day for the selected week
+  // // Calculate events by day for the selected week
   const eventsByDay = daysOfWeek.reduce((acc, day) => {
     acc[day] = events.filter((event) => {
-      const eventDay = dayjs(event.date);
-      return (
-        eventDay.format("dddd") === day && isEventInSelectedWeek(event.date)
-      ); //check day of the week of event
+      const eventDay = dayjs(event.startDateTime); 
+      return eventDay.format("dddd") === day && isEventInSelectedWeek(event.startDateTime);
     });
     return acc;
   }, {} as Record<DaysOfWeek, any[]>);
+  
 
   const toggleModal = (event: any) => {
     setIsModalOpen(!isModalOpen);
@@ -150,8 +149,6 @@ export default function Home() {
         console.error("Error fetching events: ", error);
       });
   };
-  
-  
 
   // Fetch events when currentDate changes
   useEffect(() => {

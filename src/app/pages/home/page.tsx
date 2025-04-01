@@ -66,6 +66,10 @@ export default function Home() {
     eventHost: string;
     location: string;
     club: string;
+    image: string;
+    description: string;
+    startTime: string;
+    endTime: string;
   } | null>(null);
 
   const daysOfWeek: DaysOfWeek[] = [
@@ -98,16 +102,15 @@ export default function Home() {
     return eventDay.isBetween(startOfCurrentWeek, endOfCurrentWeek, null, "[]"); // Check if the event is within the range
   };
 
-  // Calculate events by day for the selected week
+  // // Calculate events by day for the selected week
   const eventsByDay = daysOfWeek.reduce((acc, day) => {
     acc[day] = events.filter((event) => {
-      const eventDay = dayjs(event.date);
-      return (
-        eventDay.format("dddd") === day && isEventInSelectedWeek(event.date)
-      ); //check day of the week of event
+      const eventDay = dayjs(event.startDateTime); 
+      return eventDay.format("dddd") === day && isEventInSelectedWeek(event.startDateTime);
     });
     return acc;
   }, {} as Record<DaysOfWeek, any[]>);
+  
 
   const toggleModal = (event: any) => {
     setIsModalOpen(!isModalOpen);
@@ -118,14 +121,29 @@ export default function Home() {
   const getEvents = (selectedDate: Dayjs) => {
     const formattedDate = selectedDate.format("YYYY-MM-DD");
     const herokuApiUrl = process.env.NEXT_PUBLIC_HEROKU_API_URL;
+  
     axios
       .get(`${herokuApiUrl}/api/frontend/week-of-events`, {
         params: { date: formattedDate },
       })
       .then((response) => {
         console.log("Fetched events: ", response.data);
+  
+        // Convert start and end time for each event to EST and update eventHost if needed
+        const updatedEvents = response.data.map((event: any) => {
+          // Update the eventHost if it's "Unknown Club"
+          const updatedHost = event.eventHost === "Unknown Club" ? "Unknown Host" : event.eventHost;
+  
+          return {
+            ...event,
+            startTime: convertToEST(event.startDateTime),
+            endTime: convertToEST(event.endDateTime),
+            eventHost: updatedHost, // Set the updated eventHost
+          };
+        });
+  
         // Set the events array state with the new events
-        setEvents(response.data);
+        setEvents(updatedEvents);
       })
       .catch((error) => {
         console.error("Error fetching events: ", error);
@@ -136,6 +154,32 @@ export default function Home() {
   useEffect(() => {
     getEvents(currentDate);
   }, [currentDate]);
+  
+  const convertToEST = (utcDateString: string) => {
+    if (!utcDateString) {
+      return "Invalid date"; // Return an error message if the date is not provided
+    }
+
+    // Create a Date object from the UTC timestamp
+    const utcDate = new Date(utcDateString);
+  
+    // Check if the date is valid
+    if (isNaN(utcDate.getTime())) {
+      return "Invalid date"; // Return a message if the date is invalid
+    }
+  
+    // Convert to EST (America/New_York) and get the time in a readable format
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: "America/New_York",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+  
+    const estTime = new Intl.DateTimeFormat("en-US", options).format(utcDate);
+  
+    return estTime;
+  };
 
   return (
     <>
@@ -187,9 +231,9 @@ export default function Home() {
                     onClick={() => toggleModal(event)}
                     key={eventIdx}
                     title={event.title}
-                    eventHost={event.eventHost}
                     location={event.location}
-                    club={event.club}
+                    startTime={event.startTime}
+                    endTime={event.endTime}
                   />
                 ))}
               </div>
@@ -213,9 +257,9 @@ export default function Home() {
                         onClick={() => toggleModal(event)}
                         key={eventIdx}
                         title={event.title}
-                        eventHost={event.eventHost}
                         location={event.location}
-                        club={event.club}
+                        startTime={event.startTime}
+                        endTime={event.endTime}
                       />
                     ))}
                   </div>
@@ -265,10 +309,30 @@ export default function Home() {
                         <strong>Title:</strong> {currentEvent.title}
                       </div>
                       <div>
+                        <strong>Location:</strong> {currentEvent.location}
+                      </div>
+                      <div>
+                        <strong>Time:</strong> {currentEvent.startTime} - {currentEvent.endTime}
+                      </div>
+                      <div>
+                        <strong>Description:</strong> {currentEvent.description}
+                      </div>
+                      <div>
                         <strong>Event Host:</strong> {currentEvent.eventHost}
                       </div>
-                      <div><strong>Location:</strong> {currentEvent.location}</div>
-                      <div><strong>Club:</strong> {currentEvent.club}</div>
+                      <div>
+                        <strong>Club:</strong> {currentEvent.club}
+                      </div>
+
+                      <a href="URL">
+                        <img
+                          id="modalImage"
+                          src={currentEvent.image}
+                          alt="No image found"
+                          width="100%"
+                          height="auto"
+                        ></img>
+                      </a>
                     </>
                   ) : (
                     <div>No event selected</div>

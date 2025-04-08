@@ -29,6 +29,10 @@ const nextConfig = {
         {
           source: '/report-problem',
           destination: '/pages/reportProblem',
+        },
+        {
+          source: '/event-options',
+          destination: '/pages/admin-event-options',
         }
       ];
     },

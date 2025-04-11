@@ -1,5 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/newEvent.module.css"; // Ensure path is correct
+import axios from "axios";
+
+interface EventFormData {
+  title: string;
+  description: string;
+  typeOfEvent: string;
+  eventCreator: string;
+  eventHost: string;
+  startDateTime: string;
+  endDateTime: string;
+  location: string;
+  club: string;
+}
 
 export function NewEvent() {
   const [formData, setFormData] = useState({
@@ -38,9 +51,40 @@ export function NewEvent() {
     resizeTextarea(); // Ensure resizing on initial load
   }, []);
 
-  const handleSubmit = (e: any) => {
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+
+    const apiUrl = process.env.NEXT_PUBLIC_HEROKU_API_URL;
+
+    // Convert to ISO strings for the start and end times
+    const formattedStartDateTime = new Date(
+      formData.startDateTime
+    ).toISOString();
+    const formattedEndDateTime = new Date(formData.endDateTime).toISOString();
+
+    const eventData = {
+      ...formData,
+      startDateTime: formattedStartDateTime,
+      endDateTime: formattedEndDateTime,
+    };
+
+    console.log(eventData);
+
+    const headers = {
+      "Api-Key": `${process.env.NEXT_PUBLIC_ADMIN_API_KEY}`,
+      "Content-Type": "application/json",
+    };
+    console.log(headers);
+    axios
+      .post(`${apiUrl}/api/admin/new-event`, eventData, { headers })
+      .then((response) => {
+        console.log("Event created successfully");
+      })
+      .catch((error) => {
+        console.error("Error creating event:");
+      });
+
   };
 
   return (
